@@ -3,11 +3,13 @@ import numpy as np
 import pandas as pd 
 import seaborn as sns 
 import matplotlib.pyplot as plt
-%matplotlib inline
+
 import os
 for dirname, _, filenames in os.walk('/kaggle/input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
+        
+%matplotlib inline
 
 training = pd.read_csv('/kaggle/input/titanic/train.csv')
 test = pd.read_csv('/kaggle/input/titanic/test.csv')
@@ -40,7 +42,8 @@ sns.heatmap(df_num.corr())
 pd.pivot_table(training, index = 'Survived', values = ['Age','SibSp','Parch','Fare'])
 
 for i in df_cat.columns:
-    sns.barplot(df_cat[i].value_counts().index,df_cat[i].value_counts()).set_title(i)
+    plt.barplot(df_cat[i].value_counts().index,df_cat[i].value_counts())
+    plt.title(i)
     plt.show()
 
 print(pd.pivot_table(training, index = 'Survived', columns = 'Pclass', values = 'Ticket' ,aggfunc ='count'))
@@ -64,7 +67,7 @@ training['ticket_letters'] = training.Ticket.apply(lambda x: ''.join(x.split(' '
 
 training['numeric_ticket'].value_counts()
 
-pd.set_option("max_rows", None)
+pd.set_option("display.max_rows", None)
 training['ticket_letters'].value_counts()
 
 pd.pivot_table(training,index='Survived',columns='numeric_ticket', values = 'Ticket', aggfunc='count')
